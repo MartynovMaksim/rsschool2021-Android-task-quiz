@@ -18,9 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:fitsSystemWindows="true"
-            app:navigationContentDescription="Back to the previous question"
-            app:navigationIcon="@drawable/ic_baseline_chevron_left_24"
+            android:fitsSystemWindows="false"
             app:title="Question 1" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -73,6 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@id/margin_end_guideline"
                 app:layout_constraintStart_toStartOf="@id/margin_start_guideline"
                 app:layout_constraintTop_toTopOf="@id/margin_top_guideline"

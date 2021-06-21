@@ -9,16 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import com.rsschool.quiz.databinding.FragmentSecondQuestionBinding
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
+import com.rsschool.quiz.databinding.FragmentFifthQuestionBinding
 
-private var _binding: FragmentSecondQuestionBinding? = null
+private var _binding: FragmentFifthQuestionBinding? = null
 private val binding get() = requireNotNull(_binding)
 private lateinit var communicator: Communicator
-
-
-class SecondQuestion : Fragment() {
+class FifthQuestion : Fragment() {
 
     private lateinit var preferences: SharedPreferences
 
@@ -32,10 +30,10 @@ class SecondQuestion : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        activity?.window?.statusBarColor = requireNotNull(context?.getColor(R.color.yellow_100_dark))
+        activity?.window?.statusBarColor = requireNotNull(context?.getColor(R.color.deep_purple_100_dark))
         preferences =
             requireNotNull(activity?.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE))
-        _binding = FragmentSecondQuestionBinding.inflate(inflater, container, false)
+        _binding = FragmentFifthQuestionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,12 +41,12 @@ class SecondQuestion : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             nextButton.isEnabled = false
-            question.text = SECOND_QUESTION
-            optionOne.text = secondQuestion[0]
-            optionTwo.text = secondQuestion[1]
-            optionThree.text = secondQuestion[2]
-            optionFour.text = secondQuestion[3]
-            optionFive.text = secondQuestion[4]
+            question.text = FIFTH_QUESTION
+            optionOne.text = fifthQuestion[0]
+            optionTwo.text = fifthQuestion[1]
+            optionThree.text = fifthQuestion[2]
+            optionFour.text = fifthQuestion[3]
+            optionFive.text = fifthQuestion[4]
 
             var radiobuttonId: Int? = null
             radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -58,23 +56,22 @@ class SecondQuestion : Fragment() {
             }
             previousButton.setOnClickListener {
                 saveResults(radiobuttonId)
-                communicator.openFirstQuestion()
+                communicator.openFourthQuestion()
             }
             toolbar.setNavigationOnClickListener {
                 saveResults(radiobuttonId)
-                communicator.openFirstQuestion()
+                communicator.openFourthQuestion()
             }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
                 saveResults(radiobuttonId)
-                communicator.openFirstQuestion()
+                communicator.openFourthQuestion()
             }
             nextButton.setOnClickListener {
                 saveResults(radiobuttonId)
-                communicator.openThirdQuestion()
+                communicator.scoreFragment()
             }
             setPreviousResult()
         }
-
     }
 
     override fun onDestroyView() {
@@ -83,19 +80,18 @@ class SecondQuestion : Fragment() {
     }
 
     private fun saveResults(id: Int?) {
-        id?.let {
-            preferences.edit()
-                .putInt(PREF_SECOND_QUEST_ANSWER_ID, it)
-                .putString(PREF_SECOND_QUEST_ANSWER_VALUE, secondQuestion[it])
-                .apply()
+        id?.let { preferences.edit()
+            .putInt(PREF_FIFTH_QUEST_ANSWER_ID, it)
+            .putString(PREF_FIFTH_QUEST_ANSWER_VALUE, fifthQuestion[it])
+            .apply()
         }
     }
 
     private fun setPreviousResult() {
-        if (preferences.contains(PREF_SECOND_QUEST_ANSWER_ID)) {
+        if (preferences.contains(PREF_FIFTH_QUEST_ANSWER_ID)) {
             (binding.radioGroup.getChildAt(
                 preferences.getInt(
-                    PREF_SECOND_QUEST_ANSWER_ID,
+                    PREF_FIFTH_QUEST_ANSWER_ID,
                     -1
                 )
             ) as RadioButton).isChecked = true
